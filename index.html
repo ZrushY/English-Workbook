@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2B4C7E" />
+<title>English Workbook</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap');
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #FBF9F4;
+    color: #232323;
+  }
+  .serif { font-family: 'Source Serif 4', serif; }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .pen { font-family: 'Kalam', cursive; }
+
+  header {
+    border-bottom: 2px solid #232323;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    background: #FBF9F4;
+    z-index: 5;
+  }
+  header .title { display: flex; align-items: center; gap: 10px; }
+  header h1 { font-size: 20px; margin: 0; line-height: 1; }
+  header p { margin: 3px 0 0; font-size: 10px; color: #5A6470; letter-spacing: 0.06em; }
+  .progress-badge {
+    font-size: 11px;
+    padding: 5px 9px;
+    border: 1px solid #2B4C7E;
+    color: #2B4C7E;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .pen-icon { color: #C0392B; font-size: 22px; }
+
+  #tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 2px solid #232323;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border: 1px solid #C9D6E8;
+    border-radius: 3px;
+    background: transparent;
+    text-align: left;
+    min-width: 150px;
+  }
+  .tab.active { background: #2B4C7E; color: #FBF9F4; border-color: #2B4C7E; }
+  .tab .tlabel { display: block; font-size: 10px; opacity: 0.75; }
+  .tab .ttitle { display: block; font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .tab .tcheck { float: right; }
+
+  main {
+    padding: 20px 18px 60px;
+    max-width: 640px;
+    margin: 0 auto;
+    background-image: repeating-linear-gradient(to bottom, transparent, transparent 33px, #C9D6E8 34px);
+    position: relative;
+  }
+  main::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 26px;
+    width: 2px;
+    background: #E8B4B0;
+  }
+  .lesson-body { padding-left: 34px; }
+
+  .kicker { font-size: 11px; color: #2B4C7E; letter-spacing: 0.05em; }
+  h2.title2 { font-size: 26px; font-weight: 700; margin: 4px 0 14px; }
+
+  ul.rules { list-style: none; margin: 0 0 20px; padding: 0; }
+  ul.rules li { position: relative; padding-left: 16px; font-size: 14px; line-height: 1.55; margin-bottom: 6px; }
+  ul.rules li::before { content: "•"; position: absolute; left: 0; color: #C0392B; }
+
+  .example {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid #E5E1D8;
+    flex-wrap: wrap;
+  }
+  .example .en { font-style: italic; }
+  .example .note { font-size: 11px; color: #5A6470; white-space: nowrap; }
+
+  h3.practice-h { font-size: 17px; font-weight: 700; margin: 26px 0 12px; }
+  .score-note { font-size: 13px; color: #5A6470; font-weight: 400; margin-left: 6px; }
+
+  .q-block { margin-bottom: 22px; }
+  .q-text { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .options { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  @media (min-width: 480px) { .options { grid-template-columns: 1fr 1fr; } }
+  .opt {
+    text-align: left;
+    font-size: 13.5px;
+    padding: 9px 10px;
+    border-radius: 3px;
+    border: 1px solid #C9D6E8;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .opt.selected { border-color: #2B4C7E; background: #EDF1F7; }
+  .opt.correct { border-color: #3F7D58; background: #EAF4EE; }
+  .opt.wrong { border-color: #C0392B; background: #FBEAE8; }
+  .opt-mark { font-weight: bold; }
+  .opt-mark.right { color: #3F7D58; }
+  .opt-mark.wrongmark { color: #C0392B; }
+
+  .explain { font-family: 'Kalam', cursive; color: #C0392B; font-size: 15px; margin-top: 6px; }
+
+  .actions { margin-top: 26px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  button.primary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 10px 18px;
+    background: #2B4C7E;
+    color: #FBF9F4;
+    border: none;
+    border-radius: 3px;
+  }
+  button.primary:disabled { opacity: 0.4; }
+  button.secondary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid #2B4C7E;
+    color: #2B4C7E;
+    border-radius: 3px;
+  }
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 2px solid #C0392B;
+    color: #C0392B;
+    border-radius: 2px;
+    transform: rotate(-6deg);
+    font-family: 'Kalam', cursive;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  #installBanner {
+    display: none;
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    background: #2B4C7E;
+    color: #FBF9F4;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 20;
+  }
+  #installBanner button {
+    font-family: 'IBM Plex Mono', monospace;
+    background: #F4D35E;
+    color: #232323;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title">
+    <span class="pen-icon">✎</span>
+    <div>
+      <h1 class="serif">English Workbook</h1>
+      <p class="mono">STRUCTURED GRAMMAR &amp; VOCABULARY PRACTICE</p>
+    </div>
+  </div>
+  <div class="progress-badge mono" id="progressBadge">0 / 5 units complete</div>
+</header>
+
+<div id="tabs"></div>
+<main id="main"></main>
+
+<div id="installBanner">
+  <span>Install this as an app on your phone</span>
+  <button id="installBtn">Install</button>
+</div>
+
+<script>
+const UNITS = [
+  {
+    id: "greetings", label: "Unit 1", title: "Greetings & Introductions", kind: "Vocabulary",
+    rule: [
+      "Use different greetings depending on the time of day and how well you know someone.",
+      "\u201CHi\u201D and \u201CHello\u201D work any time. \u201CGood morning / afternoon / evening\u201D are more formal.",
+      "To introduce yourself, say \u201CI'm ___\u201D or \u201CMy name is ___.\u201D To ask someone's name, say \u201CWhat's your name?\u201D"
+    ],
+    examples: [
+      { en: "Good morning! How are you today?", note: "formal, before noon" },
+      { en: "Hi, I'm Priya. Nice to meet you.", note: "casual introduction" },
+      { en: "What's your name? \u2014 My name is Arjun.", note: "asking & answering" }
+    ],
+    questions: [
+      { q: "Which greeting is correct at 9 PM?", options: ["Good morning", "Good afternoon", "Good evening", "Good night (as a greeting)"], correct: 2, explain: "\u201CGood evening\u201D is used from late afternoon until night as a greeting." },
+      { q: "Complete: \u201C___ your name?\u201D", options: ["Who's", "What's", "How's", "Where's"], correct: 1, explain: "\u201CWhat's your name?\u201D asks for a person's name." },
+      { q: "Choose the correct self-introduction.", options: ["I am called of Rohan", "My is name Rohan", "I'm Rohan", "Me Rohan is"], correct: 2, explain: "\u201CI'm ___\u201D is the natural, correct way to introduce yourself." },
+      { q: "\u201CNice to ___ you\u201D \u2014 fill the blank.", options: ["meet", "meeting", "met", "meets"], correct: 0, explain: "The fixed phrase is \u201Cnice to meet you\u201D (base verb after \u201Cto\u201D)." }
+    ]
+  },
+  {
+    id: "present-simple", label: "Unit 2", title: "Present Simple Tense", kind: "Grammar",
+    rule: [
+      "Use the present simple for facts, habits, and routines: I work, you work, we work, they work.",
+      "Add -s (or -es) for he / she / it: he works, she watches, it rains.",
+      "For negatives, use don't / doesn't + base verb: I don't work, she doesn't work.",
+      "For questions, use Do / Does + subject + base verb: Do you work? Does she work?"
+    ],
+    examples: [
+      { en: "I go to the office every day.", note: "I / you / we / they \u2192 no -s" },
+      { en: "She goes to the office every day.", note: "he / she / it \u2192 add -s" },
+      { en: "He doesn't drink coffee.", note: "negative with doesn't" },
+      { en: "Do they live in Pune?", note: "question with Do" }
+    ],
+    questions: [
+      { q: "She ___ (work) at a hospital.", options: ["work", "works", "working", "is work"], correct: 1, explain: "Third person singular (she) needs -s: works." },
+      { q: "They ___ (not / like) spicy food.", options: ["doesn't like", "don't likes", "don't like", "not like"], correct: 2, explain: "Plural subject \u2018they\u2019 uses don't + base verb: don't like." },
+      { q: "___ he speak English?", options: ["Do", "Does", "Is", "Are"], correct: 1, explain: "Singular subject \u2018he\u2019 needs Does in questions." },
+      { q: "Which sentence is correct?", options: ["He go to school by bus.", "He goes to school by bus.", "He going to school by bus.", "He is go to school by bus."], correct: 1, explain: "\u2018He\u2019 requires the -s form: goes." },
+      { q: "I ___ (not / eat) meat.", options: ["doesn't eat", "don't eats", "don't eat", "not eat"], correct: 2, explain: "\u2018I\u2019 uses don't + base verb: don't eat." }
+    ]
+  },
+  {
+    id: "articles", label: "Unit 3", title: "Articles: a / an / the", kind: "Grammar",
+    rule: [
+      "Use \u201Ca\u201D before words that start with a consonant sound: a book, a university (starts with a \u2018yoo\u2019 sound).",
+      "Use \u201Can\u201D before words that start with a vowel sound: an apple, an hour (the h is silent).",
+      "Use \u201Cthe\u201D when both speakers know exactly which thing you mean: the sun, the book I told you about.",
+      "Don't use an article for general plural or uncountable nouns: I like music. Dogs are loyal."
+    ],
+    examples: [
+      { en: "I saw an elephant at the zoo.", note: "an + vowel sound; the + specific zoo" },
+      { en: "She is a nurse.", note: "a + consonant sound" },
+      { en: "It took an hour to finish.", note: "an + silent h" },
+      { en: "Close the door, please.", note: "the = a specific, known door" }
+    ],
+    questions: [
+      { q: "I need ___ umbrella, it's raining.", options: ["a", "an", "the", "\u2014 (no article)"], correct: 1, explain: "\u2018Umbrella\u2019 starts with a vowel sound, so use \u2018an\u2019." },
+      { q: "He is ___ honest man.", options: ["a", "an", "the", "\u2014 (no article)"], correct: 1, explain: "\u2018Honest\u2019 starts with a silent h \u2014 the sound is a vowel, so \u2018an\u2019." },
+      { q: "Can you pass me ___ salt on the table?", options: ["a", "an", "the", "\u2014 (no article)"], correct: 2, explain: "Both speakers know exactly which salt \u2014 use \u2018the\u2019." },
+      { q: "___ cats are independent animals.", options: ["A", "An", "The", "\u2014 (no article)"], correct: 3, explain: "A general statement about cats in general uses no article." }
+    ]
+  },
+  {
+    id: "daily-verbs", label: "Unit 4", title: "Daily Routine Verbs", kind: "Vocabulary",
+    rule: [
+      "These common verbs describe a typical day: wake up, get up, brush, shower, have breakfast, commute, work, relax, sleep.",
+      "Many routine verbs pair with fixed words: have breakfast, take a shower, go to bed.",
+      "Sequence words like \u201Cfirst, then, after that, finally\u201D help you describe routines in order."
+    ],
+    examples: [
+      { en: "I wake up at 6 AM, then I take a shower.", note: "wake up \u2192 take a shower" },
+      { en: "After breakfast, I commute to work.", note: "sequencing with 'after'" },
+      { en: "She relaxes by reading before bed.", note: "relax + reading habit" }
+    ],
+    questions: [
+      { q: "Which pair is correct?", options: ["make a shower", "take a shower", "do a shower", "have a shower only"], correct: 1, explain: "The standard fixed phrase is \u2018take a shower\u2019." },
+      { q: "I usually ___ breakfast at 7 AM.", options: ["make", "have", "do", "take"], correct: 1, explain: "\u2018Have breakfast\u2019 is the standard collocation." },
+      { q: "Choose the correct sequence word: \u201CI shower. ___, I get dressed.\u201D", options: ["Before", "Then", "Ago", "Since"], correct: 1, explain: "\u2018Then\u2019 shows what happens next in a sequence." },
+      { q: "\u201CI go to ___ at 11 PM.\u201D", options: ["sleep", "bed", "sleeping", "the sleep"], correct: 1, explain: "The fixed phrase is \u2018go to bed\u2019." }
+    ]
+  },
+  {
+    id: "question-words", label: "Unit 5", title: "Question Words", kind: "Grammar",
+    rule: [
+      "Who asks about a person. What asks about a thing or action. Where asks about a place.",
+      "When asks about time. Why asks for a reason. How asks about manner, and can combine: how much, how many, how often.",
+      "Word order: Question word + do/does/did (or be-verb) + subject + verb."
+    ],
+    examples: [
+      { en: "Who is that man?", note: "asking about a person" },
+      { en: "Where do you live?", note: "asking about a place" },
+      { en: "How often do you exercise?", note: "asking about frequency" },
+      { en: "Why did she leave early?", note: "asking for a reason" }
+    ],
+    questions: [
+      { q: "___ is your best friend?", options: ["What", "Who", "Where", "Why"], correct: 1, explain: "\u2018Who\u2019 asks about a person." },
+      { q: "___ do you usually wake up?", options: ["What time", "Who", "Whose", "What"], correct: 0, explain: "\u2018What time\u2019 asks specifically about a time." },
+      { q: "___ books do you have?", options: ["How much", "How many", "How", "How long"], correct: 1, explain: "\u2018Books\u2019 is countable, so use \u2018how many\u2019." },
+      { q: "___ did you choose this job?", options: ["Where", "Why", "Who", "Which"], correct: 1, explain: "\u2018Why\u2019 asks for a reason." }
+    ]
+  }
+];
+
+let state = {
+  activeId: UNITS[0].id,
+  answers: {},   // unitId -> {qIndex: optIndex}
+  checked: {},   // unitId -> bool
+  scores: {}     // unitId -> {correct, total}
+};
+
+function unitById(id) { return UNITS.find(u => u.id === id); }
+
+function isComplete(u) {
+  const s = state.scores[u.id];
+  return state.checked[u.id] && s && (s.correct / s.total) >= 0.8;
+}
+
+function answeredCount(u) {
+  return Object.keys(state.answers[u.id] || {}).length;
+}
+
+function setAnswer(unitId, qi, oi) {
+  if (state.checked[unitId]) return;
+  if (!state.answers[unitId]) state.answers[unitId] = {};
+  state.answers[unitId][qi] = oi;
+  render();
+}
+
+function checkAnswers(u) {
+  const ua = state.answers[u.id] || {};
+  let correct = 0;
+  u.questions.forEach((q, i) => { if (ua[i] === q.correct) correct++; });
+  state.scores[u.id] = { correct, total: u.questions.length };
+  state.checked[u.id] = true;
+  render();
+}
+
+function retryUnit(unitId) {
+  state.answers[unitId] = {};
+  state.checked[unitId] = false;
+  delete state.scores[unitId];
+  render();
+}
+
+function setActive(id) {
+  state.activeId = id;
+  render();
+  document.getElementById('main').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderTabs() {
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = '';
+  UNITS.forEach(u => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (u.id === state.activeId ? ' active' : '');
+    btn.innerHTML = `
+      <span class="tlabel mono">${u.label} \u00B7 ${u.kind}${isComplete(u) ? '<span class="tcheck">\u2713</span>' : ''}</span>
+      <span class="ttitle serif">${u.title}</span>
+    `;
+    btn.onclick = () => setActive(u.id);
+    tabs.appendChild(btn);
+  });
+}
+
+function renderMain() {
+  const u = unitById(state.activeId);
+  const main = document.getElementById('main');
+  const isChecked = state.checked[u.id];
+  const score = state.scores[u.id];
+
+  let rulesHtml = u.rule.map(r => `<li>${r}</li>`).join('');
+  let examplesHtml = u.examples.map(e => `
+    <div class="example">
+      <span class="en serif">${e.en}</span>
+      <span class="note mono">${e.note}</span>
+    </div>`).join('');
+
+  let questionsHtml = u.questions.map((q, qi) => {
+    const selected = (state.answers[u.id] || {})[qi];
+    let optsHtml = q.options.map((opt, oi) => {
+      let cls = 'opt';
+      let mark = '';
+      if (isChecked) {
+        if (oi === q.correct) { cls += ' correct'; mark = '<span class="opt-mark right">\u2713</span>'; }
+        else if (selected === oi) { cls += ' wrong'; mark = '<span class="opt-mark wrongmark">\u2717</span>'; }
+      } else if (selected === oi) {
+        cls += ' selected';
+      }
+      return `<button class="${cls}" ${isChecked ? 'disabled' : ''} onclick="setAnswer('${u.id}', ${qi}, ${oi})">
+        <span>${opt}</span>${mark}
+      </button>`;
+    }).join('');
+
+    let explainHtml = '';
+    if (isChecked) {
+      const correct = selected === q.correct;
+      explainHtml = `<p class="explain">${correct ? '\u2713' : '\u2717'} ${q.explain}</p>`;
+    }
+
+    return `<div class="q-block">
+      <p class="q-text">${qi + 1}. ${q.q}</p>
+      <div class="options">${optsHtml}</div>
+      ${explainHtml}
+    </div>`;
+  }).join('');
+
+  let actionsHtml = '';
+  if (!isChecked) {
+    const count = answeredCount(u);
+    actionsHtml = `<button class="primary" ${count < u.questions.length ? 'disabled' : ''} onclick="checkAnswers(unitById('${u.id}'))">Check answers (${count}/${u.questions.length})</button>`;
+  } else {
+    actionsHtml = `<button class="secondary" onclick="retryUnit('${u.id}')">Try again</button>`;
+    if (isComplete(u)) {
+      actionsHtml += `<span class="stamp">\u2713 COMPLETE</span>`;
+    }
+  }
+
+  main.innerHTML = `
+    <div class="lesson-body">
+      <div class="kicker mono">${u.label} \u00B7 ${u.kind.toUpperCase()}</div>
+      <h2 class="title2 serif">${u.title}</h2>
+      <ul class="rules">${rulesHtml}</ul>
+      <div>${examplesHtml}</div>
+      <h3 class="practice-h serif">Practice ${isChecked && score ? `<span class="score-note mono">\u2014 ${score.correct}/${score.total} correct</span>` : ''}</h3>
+      ${questionsHtml}
+      <div class="actions">${actionsHtml}</div>
+    </div>
+  `;
+}
+
+function renderProgress() {
+  const completed = UNITS.filter(isComplete).length;
+  document.getElementById('progressBadge').textContent = `${completed} / ${UNITS.length} units complete`;
+}
+
+function render() {
+  renderTabs();
+  renderMain();
+  renderProgress();
+}
+
+render();
+
+// Service worker registration (enables offline use once installed)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
+// Install prompt handling
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').style.display = 'flex';
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  document.getElementById('installBanner').style.display = 'none';
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  }
+});
+</script>
+</body>
+</html>
